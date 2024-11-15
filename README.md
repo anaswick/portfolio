@@ -26,7 +26,7 @@ Developed an analytics-driven approach to track and enhance key performance indi
 
 [Complete Documentation](https://github.com/anaswick/portfolio/edit/main/assets/documentation/oca-interaction-kpi-dashboard.md)
 
-## Free Trial Campaign Effectiveness Dashboard
+### Free Trial Campaign Effectiveness Dashboard
 
 Designed an analytics-driven dashboard to assess the effectiveness of a free trial campaign by tracking key metrics: total registered users, total active users, and conversion rates from free trial to paid subscriptions. This solution provides real-time insights into user engagement and conversion trends, enabling data-driven decisions to optimize the campaign, enhance user experience, and drive revenue growth. The dashboard offers a streamlined, automated approach to monitoring campaign performance and aligning marketing efforts with business objectives.
 
