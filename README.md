@@ -31,7 +31,7 @@
 
 ## Courses and Certification
 
-- Google Advanced Data Analytics [link](/assets/img/certification/Google Advance Data Analytics.JPG)
+- Google Advanced Data Analytics [/assets/img/certification/Google Advance Data Analytics.JPG](url)
 
 ## Talks & Lectures
 - KarirLab x Mowilex Corporate Training for Management Trainee - Boost Your Data Analysis Skills with Excel , October 2024
