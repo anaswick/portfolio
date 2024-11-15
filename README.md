@@ -1,6 +1,6 @@
 # Data Scientist
 
-#### Technical Skills: Python, SQL, Spreadsheet
+#### Technical Skills: Python, SQL, Google BigQuery, Tableau, Power BI, Looker, Metabase, Spreadsheet
 
 ## Education
 - Bachelor of Economics, Management | Universitas Indonesia (_Augusts 2015_)
