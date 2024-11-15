@@ -14,19 +14,14 @@
 
 ## Projects
 
-### KPI and Metrics Tracking Dashboard for Omnichannel Communication Assistant
+### KPI and Metrics Tracking Dashboard for Omnichannel Communication Assistant - Message Blasting Services
 
 Developed a data-driven strategy for tracking and optimizing key performance indicators (KPIs) across multiple communication channels using Python and visualization tools. By systematically monitoring message delivery, engagement metrics, and usage trends across WhatsApp, email, SMS, and IVR, the project enables comprehensive performance insights. This approach allowed for a more nuanced understanding of channel effectiveness, highlighting opportunities for targeted optimization and improved customer engagement. The dashboard provides a fully automated, flexible solution for real-time monitoring and strategic analysis, enhancing decision-making and aligning business goals with customer interaction patterns.
 
-
-![EEG Band Discovery](/assets/img/eeg_band_discovery.jpeg)
+[Complete Documentation](https://github.com/anaswick/portfolio/blob/main/assets/documentation/oca-blast-kpi-monitoring-dashboard.md)
 
 ### 
-[Publication]()
 
-
-
-![Bike Study](/assets/img/bike_study.jpeg)
 
 
 ## Courses and Certification
