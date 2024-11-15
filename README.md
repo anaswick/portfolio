@@ -22,6 +22,9 @@ Developed a data-driven strategy for tracking and optimizing key performance ind
 
 ### KPI and Metrics Tracking Dashboard for CRM Services
 
+Developed an analytics-driven approach to track and enhance key performance indicators (KPIs) within a CRM service across diverse customer interaction channels. Leveraging Python and advanced visualization tools, the project systematically monitored conversation volumes, response times, customer satisfaction, and retention metrics across channels such as WhatsApp, email, live chat, and social media. This approach delivered comprehensive insights into customer service effectiveness, identifying areas for process optimization and resource allocation. The resulting dashboard offers an automated and adaptable solution for real-time performance monitoring, empowering stakeholders to make data-informed decisions, improve customer satisfaction, and align CRM efforts with strategic business objectives.
+
+[Complete Documentation](https://github.com/anaswick/portfolio/edit/main/assets/documentation/oca-interaction-kpi-dashboard.md)
 
 
 ## Courses and Certification
