@@ -118,3 +118,20 @@ This visualization helps in quickly identifying both daily patterns and any unus
 
 **Impact** <br>
 Understanding daily ticket volume trends allows the organization to optimize staffing and resource allocation, ensuring adequate support coverage during peak periods. The identification of specific high-activity days can prompt further investigation into root causes, such as feature releases, outages, or seasonal spikes, enabling the team to proactively manage similar events in the future. Ultimately, this data supports effective support operations management and enhances the customer experience by ensuring timely responses during high-demand periods.
+
+## Daily Total Conversations
+
+![image](https://github.com/user-attachments/assets/fd8c12c2-9113-49eb-a698-995678a7d351)
+
+**Purpose** <br>
+This line chart tracks the total daily volume of conversations (both inbound and outbound) across various communication channels. It helps monitor daily interaction levels, providing insights into customer engagement trends and support demand over time.
+
+**Usage** <br>
+The x-axis represents dates throughout 2024, while the y-axis shows the number of conversations per day. Regular fluctuations reflect typical engagement patterns, while significant spikes, such as those around June and October, indicate periods of increased conversation activity. These peaks may be associated with events, promotions, or technical issues that required additional customer interaction.
+
+This visualization allows for quick identification of both routine patterns and unusual surges in conversation volume, offering a basis for operational adjustments.
+
+**Impact** <br>
+Analyzing daily conversation volume enables the organization to optimize resource allocation and ensure adequate support staffing during high-demand periods. Recognizing peak days allows for proactive planning, which helps maintain service quality during busy times. This data also informs future strategies by identifying patterns in customer engagement, allowing the organization to plan targeted initiatives that enhance customer experience and efficiently handle fluctuations in demand.
+
+
