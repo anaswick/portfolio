@@ -9,7 +9,7 @@
 **Head of Analytics @ Telkom Indonesia (_July 2024 - Present_)**
 - 
 
-**Data Scientist @ Telkom Indonesia (_October 2021 - July 2024)**
+**Data Scientist @ Telkom Indonesia (_October 2021 - July 2024_)**
 -
 
 ## Projects
@@ -31,7 +31,12 @@
 
 ## Courses and Certification
 
-- Google Advanced Data Analytics [/assets/img/certification/Google Advance Data Analytics.JPG](url)
+- [Google Advanced Data Analytics](https://github.com/anaswick/portfolio/blob/main/assets/img/certification/Google%20Advance%20Data%20Analytics.JPG)
+- [Google Data Analytics](https://github.com/anaswick/portfolio/blob/main/assets/img/certification/Google%20Data%20Analytics.JPG)
+- [IBM Data Science](https://github.com/anaswick/portfolio/blob/main/assets/img/certification/IBM%20Data%20Science%20Professional%20Certificate.JPG)
+- [IBM Data Analyst](https://github.com/anaswick/portfolio/blob/main/assets/img/certification/IBM%20Data%20Analyst.JPG)
+- [Microsoft Power BI Desktop for Business Intelligence](https://github.com/anaswick/portfolio/blob/main/assets/img/certification/Microsoft%20Power%20BI%20Desktop%20for%20Business%20Intelligence.JPG)
+- [Tableau 2022 A-Z - Hands On Tableau Training for Data Science](https://github.com/anaswick/portfolio/blob/main/assets/img/certification/Tableau%202022%20A-Z%20-%20Hands%20On%20Tableau%20Training%20for%20Data%20Science.JPG)
 
 ## Talks & Lectures
 - KarirLab x Mowilex Corporate Training for Management Trainee - Boost Your Data Analysis Skills with Excel , October 2024
