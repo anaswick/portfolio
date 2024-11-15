@@ -65,3 +65,43 @@ For example, if a cell shows “50%” in the day_1 column, it means that 50% of
 
 **Impact** <br>
 By analyzing cohort retention data, the organization can identify which days experience significant drop-offs and understand the overall retention pattern during the free trial period. This information helps in tailoring engagement strategies, such as sending targeted reminders or offering incentives to encourage users to return. Improving early retention rates can lead to higher conversions from free trial to paid users, as engaged users are more likely to see the value in the service. Ultimately, this data-driven approach to retention enhances user experience, increases the likelihood of long-term retention, and supports sustainable growth.
+
+
+## Free Trial Blast - Account Creation to First Login Interval
+
+![image](https://github.com/user-attachments/assets/24cf5955-10e6-49e4-9bb3-b869694f98bf)
+
+**Purpose** <br>
+This section measures the time interval from account creation to first login for users on the free trial. By tracking the time it takes for new users to log in after signing up, this metric provides insights into user onboarding efficiency and initial engagement with the platform.
+
+**Usage** <br>
+The metrics displayed include:
+
+**Minimum Interval**: The shortest time taken by a user to log in after account creation, indicating the quickest engagement. <br>
+**Average Interval**: The average time across all users from account creation to first login, showing the typical onboarding duration. <br>
+**Maximum Interval**: The longest time a user took to log in after account creation, highlighting potential delays in initial engagement. <br>
+
+These metrics allow stakeholders to assess the effectiveness of the onboarding process, identifying how quickly new users engage with the platform after signing up.
+
+**Impact** <br>
+Understanding the time interval from account creation to first login helps the organization improve the onboarding experience. A shorter interval suggests effective onboarding and immediate user interest, while longer intervals may indicate friction points in the process. This information enables the team to refine onboarding strategies, such as sending timely reminders or providing introductory tutorials, to encourage faster engagement. Ultimately, enhancing early engagement can lead to higher conversion rates and improved user satisfaction, supporting the success of the free trial campaign.
+
+
+## Free Trial Blast - Account Creation to First Broadcast Interval
+
+![image](https://github.com/user-attachments/assets/0c20a7db-52d1-4f51-b10e-6b5a3109df07)
+
+**Purpose** <br>
+This section measures the time interval from account creation to the first broadcast for users on the free trial. Tracking how quickly users initiate their first broadcast after signing up provides insights into the initial engagement and ease of using the broadcast feature during the trial period.
+
+**Usage** <br>
+The metrics displayed include:
+
+**Minimum Interval**: The shortest time taken by a user to start their first broadcast after account creation, showing the quickest initial engagement. <br>
+**Average Interval**: The average time across all users from account creation to first broadcast, reflecting typical user behavior during the onboarding process. <br>
+**Maximum Interval**: The longest time a user took to initiate their first broadcast after account creation, indicating potential delays in feature exploration. <br>
+
+These metrics enable stakeholders to assess how readily new users engage with the broadcast feature, offering a view into the onboarding effectiveness for this core functionality.
+
+**Impact** <br>
+Understanding the time interval from account creation to the first broadcast helps identify potential barriers to initial engagement with the platform’s key feature. A shorter interval suggests effective onboarding and immediate value realization by users, while longer intervals may indicate areas where additional guidance or feature prompts are needed. By optimizing this interval, the organization can improve user onboarding, enhance the trial experience, and increase the likelihood of converting trial users to paying customers. This approach supports better user engagement and ultimately contributes to campaign success and customer retention.
