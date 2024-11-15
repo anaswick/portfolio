@@ -6,21 +6,21 @@
 - Bachelor of Economics, Management | Universitas Indonesia (_Augusts 2015_)
 
 ## Work Experience
-**Head of Analytics @ Telkom Indonesia (_July 2024 - Present_)**
+### Head of Analytics @ Telkom Indonesia (_July 2024 - Present_)
 - 
 
-**Data Scientist @ Telkom Indonesia (_October 2021 - July 2024_)**
+### Data Scientist @ Telkom Indonesia (_October 2021 - July 2024_)
 -
 
 ## Projects
 
-### KPI and Metrics Tracking Dashboard for Omnichannel Communication Assistant - Message Blasting Services
+### KPI and Metrics Tracking Dashboard for Message Blasting Services
 
 Developed a data-driven strategy for tracking and optimizing key performance indicators (KPIs) across multiple communication channels using Python and visualization tools. By systematically monitoring message delivery, engagement metrics, and usage trends across WhatsApp, email, SMS, and IVR, the project enables comprehensive performance insights. This approach allowed for a more nuanced understanding of channel effectiveness, highlighting opportunities for targeted optimization and improved customer engagement. The dashboard provides a fully automated, flexible solution for real-time monitoring and strategic analysis, enhancing decision-making and aligning business goals with customer interaction patterns.
 
 [Complete Documentation](https://github.com/anaswick/portfolio/blob/main/assets/documentation/oca-blast-kpi-monitoring-dashboard.md)
 
-### 
+### KPI and Metrics Tracking Dashboard for CRM Services
 
 
 
