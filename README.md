@@ -28,6 +28,11 @@
 
 ![Bike Study](/assets/img/bike_study.jpeg)
 
+
+## Courses and Certification
+
+- Google Advanced Data Analytics [link](/assets/img/certification/Google Advance Data Analytics.JPG)
+
 ## Talks & Lectures
 - KarirLab x Mowilex Corporate Training for Management Trainee - Boost Your Data Analysis Skills with Excel , October 2024
 - MyEduSolve x Telkom Indonesia - Data Analysis Using Pivot Table in Microsoft Excel - August 2024
