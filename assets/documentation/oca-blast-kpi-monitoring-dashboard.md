@@ -65,6 +65,75 @@ The dashboard includes three primary filters to help users refine data views and
 
 **Impact**: An increase in transacting users reflects higher revenue potential and successful conversion of active users to paying customers. This metric provides critical insights into monetization and helps identify opportunities to improve conversion rates and optimize revenue streams. <br>
 
+<details>
+
+  <summary>Query for blast_transacting datamart </summary>
+
+### Query for blast_transacting datamart
+
+This table update once a day
+```
+ truncate table mart."blast_transacting";
+	
+	insert into mart."blast_transacting"
+	select *
+	from (
+		select  
+			"created_at" at time zone 'utc' as "created_at",
+			status, application, 'whatsapp' as flag
+		from raw.whatsappbroadcasts
+		where status = 'finish'
+			and application in (
+				select 
+					distinct application
+				from raw.wanew_conversationsessions
+				where "source" not in ('wa_interaction','whatsapp')
+					and "charge" is true
+			)
+		union all
+		select
+			"created_at" at time zone 'utc' as "created_at",
+			status, application, 'sms' as flag
+		from raw.smsbroadcasts
+		where status = 'finish'
+		union all
+		select 
+			"created_at" at time zone 'utc' as "created_at",
+			status, application, 'email' as flag
+		from raw.emailbroadcasts
+		where status = 'finish'
+		union all
+		select 
+			"created_at" at time zone 'utc' as "created_at",
+			status, application, 'ivr' as flag
+		from raw.broadcastcalls
+		where status = 'finish'
+	) as agg
+	where created_at between '2024-01-01' and '2024-12-31'
+```
+</details>
+
+<details>
+
+  <summary>Query on Metabase 'Total Transacting Users' </summary>
+
+### Query on Metabase 'Total Transacting Users'
+
+This table update once a day
+  ```
+  select
+    count(distinct u._id) as num_unique_users
+from raw.users u
+join raw.applications a
+    on u._id = a.user
+join mart.blast_transacting
+    on a._id = mart.blast_transacting.application
+where {{date_range}}
+    and mart.blast_transacting.status = 'finish'
+;
+  ```
+</details>
+
 ![image](https://github.com/user-attachments/assets/5a4e20af-6b90-48bc-9e84-9e4b7ce16432)
 
 This section of the dashboard visualizes the trends in New Registered Users and Transacting Users over time.
@@ -74,6 +143,27 @@ This section of the dashboard visualizes the trends in New Registered Users and 
 **Transacting Users Trend**: This line chart shows the number of users completing transactions over time. It provides insights into revenue-generating activity, allowing the team to analyze patterns in user transactions and assess the effectiveness of strategies to drive user engagement and spending.
 
 Together, these charts offer a clear view of user growth and engagement trends, enabling data-driven decisions to optimize acquisition and conversion strategies.
+
+<details>
+  <summary>Query on Metabase 'Transacting Users Trend Chart'</summary>
+### Query on Metabase 'Transacting Users Trend Chart'
+
+This table update once a day
+  ```
+  select
+    cast(mart.blast_transacting.created_at as date) as "date",
+    count(distinct u._id) as num_unique_users
+from raw.users u
+join raw.applications a
+    on u._id = a.user
+join mart.blast_transacting
+    on a._id = mart.blast_transacting.application
+where {{date_range}}
+    and mart.blast_transacting.status = 'finish'
+group by 1
+;
+```
+</details>
 
 ## Active Users Trends
 
