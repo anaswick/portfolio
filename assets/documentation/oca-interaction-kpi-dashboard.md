@@ -28,7 +28,7 @@ This section provides a count of active users segmented by user type, including 
 Each tile represents a specific user type with the total number of users in that category:
 
 **Total Users - All**: Total count of all active users, providing a complete view of user presence. <br>
-**Total Users - Admin**: Number of users with administrative roles. <br>
+**Total Users - Admin**: Number of users with administrator roles. <br>
 **Total Users - Owner**: Number of users who are designated as owners. <br>
 **Total Users - Supervisor**: Number of users assigned a supervisory role. <br>
 **Total Users - Non-Agent**: Count of users who do not function as agents. <br>
