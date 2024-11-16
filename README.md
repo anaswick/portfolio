@@ -45,6 +45,7 @@ Designed an analytics-driven dashboard to assess the effectiveness of a free tri
 
 The goal of this project is to improve customer service quality and ensure interactions meet established standards by implementing a Python-based random sampling and scoring system for customer service interactions. This system adheres to the principle of continuous improvement, enabling regular assessments and refinements to service quality. The sampling focuses specifically on complaint tickets, ensuring that the most critical customer interactions are evaluated for quality and resolution effectiveness.
 
+[Complete Documentation](https://github.com/anaswick/portfolio/blob/main/assets/documentation/Python-Based%20Random%20Sampling%20for%20Customer%20Interaction%20Quality%20Assessment.md)
 
 <img src="https://github.com/user-attachments/assets/4272bd90-98a1-403b-a830-5cefd500cb98" alt="image" width="250"/>
 
