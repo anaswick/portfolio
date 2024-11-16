@@ -1,25 +1,24 @@
 # Data Scientist
 
-#### Technical Skills: Python, SQL, Google BigQuery, Tableau, Power BI, Looker, Metabase, Spreadsheet
+**Technical Skills: Python, SQL, Google BigQuery, Tableau, Power BI, Looker, Metabase, Spreadsheet**
 
 ## Education
 - Bachelor of Economics, Management | Universitas Indonesia (_Augusts 2015_)
 
-## Work Experience
+## Work Experience <br>
 
-**Head of Analytics @ Telkom Indonesia (_July 2024 - Present_)**
+
+Head of Analytics - Telkom Indonesia (_July 2024 - Present_)
 - 
 
-**Data Scientist @ Telkom Indonesia (_October 2021 - July 2024_)**
+**Data Scientist - Telkom Indonesia (_October 2021 - July 2024_)**
 -
 
-**Head of Representative Office @ Telkom Indonesia (_April 2017 - August 2021_)**
+**Head of Representative Office - Telkom Indonesia (_April 2017 - August 2021_)**
 
 ## Projects
 
 ### KPI and Metrics Tracking Dashboard for Message Blasting Services
-
-Tools
 
 Developed a data-driven strategy for tracking and optimizing key performance indicators (KPIs) across multiple communication channels using Python and visualization tools. By systematically monitoring message delivery, engagement metrics, and usage trends across WhatsApp, email, SMS, and IVR, the project enables comprehensive performance insights. This approach allowed for a more nuanced understanding of channel effectiveness, highlighting opportunities for targeted optimization and improved customer engagement. The dashboard provides a fully automated, flexible solution for real-time monitoring and strategic analysis, enhancing decision-making and aligning business goals with customer interaction patterns.
 
@@ -36,6 +35,10 @@ Developed an analytics-driven approach to track and enhance key performance indi
 Designed an analytics-driven dashboard to assess the effectiveness of a free trial campaign by tracking key metrics: total registered users, total active users, and conversion rates from free trial to paid subscriptions. This solution provides real-time insights into user engagement and conversion trends, enabling data-driven decisions to optimize the campaign, enhance user experience, and drive revenue growth. The dashboard offers a streamlined, automated approach to monitoring campaign performance and aligning marketing efforts with business objectives.
 
 [Complete Documentation](https://github.com/anaswick/portfolio/blob/main/assets/documentation/oca-free-trial-campaign-effectiveness-dashboard.md)
+
+### 
+
+The goal of this project is to improve customer service quality and ensure interactions meet established standards by implementing a Python-based random sampling and scoring system for customer service interactions. This system adheres to the principle of continuous improvement, enabling regular assessments and refinements to service quality. The sampling focuses specifically on complaint tickets, ensuring that the most critical customer interactions are evaluated for quality and resolution effectiveness.
 
 ## Courses and Certification
 
