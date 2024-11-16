@@ -69,8 +69,6 @@ The dashboard includes three primary filters to help users refine data views and
 
   <summary>Query for blast_transacting datamart </summary>
 
-### Query for blast_transacting datamart
-
 This table update once a day
 ```
  truncate table mart."blast_transacting";
@@ -117,9 +115,6 @@ This table update once a day
 
   <summary>Query on Metabase 'Total Transacting Users' </summary>
 
-### Query on Metabase 'Total Transacting Users'
-
-This table update once a day
   ```
   select
     count(distinct u._id) as num_unique_users
@@ -146,9 +141,7 @@ Together, these charts offer a clear view of user growth and engagement trends, 
 
 <details>
   <summary>Query on Metabase 'Transacting Users Trend Chart'</summary>
-### Query on Metabase 'Transacting Users Trend Chart'
 
-This table update once a day
   ```
   select
     cast(mart.blast_transacting.created_at as date) as "date",
@@ -175,6 +168,61 @@ group by 1
 
 **Impact** : Tracking DAU, WAU, and MAU helps stakeholders understand user behavior and engagement patterns, especially in a context where most usage occurs on working days. Regular fluctuations in DAU, alongside relatively stable WAU and MAU values, indicate consistent usage patterns that align with work schedules. This data enables the team to assess user retention over time and make informed decisions on strategies to boost daily engagement or maintain long-term user loyalty. <br>
 
+<details>
+	<summary>Query for datamart 'blast_active_users'</summary>
+
+```
+	truncate table mart."blast_active_users";
+	
+	insert into mart."blast_active_users"
+	select
+		u._id as user_id,
+		h.created_at at time zone 'utc' as created_at
+	from raw.users as u
+	join raw.applications as a
+		on u._id = a."user"
+	join raw.history_logs as h
+		on a._id = h.application
+	where h.category in ('Log In', 'log_in')
+		and h.created_at between '2024-01-01' and NOW();
+  ```
+</details>
+
+<details>
+	<summary>Metabase Query for DAU, MAU, WAU Chart </summary>
+
+```
+with distinct_users as (
+	select
+		cast(created_at as date) as "date",
+		user_id
+	from mart.blast_active_users
+	where {{date_range}}
+	group by 1,2
+)
+select
+	a."date",
+	(
+	    select count(distinct user_id) 
+	    from distinct_users b 
+	    where b."date" = a."date"
+	) as "dau",
+	(
+	    select count(distinct user_id) 
+	    from distinct_users b 
+	    where b."date" between a."date" - interval '6 days' and a."date" + interval '1 days'
+	) as "wau",
+	(
+	    select count(distinct user_id) 
+	    from distinct_users b 
+	    where b."date" between a."date" - interval '27 days' and a."date" + interval '1 days'
+	) as "mau"
+from distinct_users a
+group by 1
+order by 1
+;
+  ```
+</details>
 
 ## Heatmap
 
@@ -188,6 +236,32 @@ group by 1
 
 **Impact** : Understanding the busiest hours for OCA blasts allows the team to optimize resource allocation, system performance, and support availability during peak usage times. This data-driven approach ensures that the platform can handle demand efficiently during peak hours, minimizing the risk of downtime and enhancing user experience. It also helps with scheduling maintenance during low-activity periods and planning targeted marketing or support activities to engage users during high-traffic times. <br>
 
+<details>
+	<summary>Metabase Query for Busy Period by Number of Active Users Heatmap</summary>
+
+```
+SELECT 
+    EXTRACT(HOUR FROM (mart.blast_transacting.created_at at time zone 'Asia/Jakarta')) AS hour_of_day, 
+    TO_CHAR((mart.blast_transacting.created_at at time zone 'Asia/Jakarta'), 'FMDay') AS day_of_week, -- Display day name without trailing spaces
+    EXTRACT(DOW FROM (mart.blast_transacting.created_at at time zone 'Asia/Jakarta')) AS dow_numeric, -- Numeric day of week (0=Sunday, 1=Monday, etc.)
+    COUNT(*) AS no_of_broadcast -- distinct u._id
+FROM raw.users as u
+join raw.applications as a
+    on u._id = a.user
+join mart.blast_transacting
+    on a._id = mart.blast_transacting.application
+where {{date}} 
+    and {{channel}}
+GROUP BY 
+    hour_of_day, 
+    day_of_week, 
+    dow_numeric
+ORDER BY 
+    dow_numeric,
+    hour_of_day ASC;
+```
+</details>
+
 ### Busy Period by Number of Charged Message
 
 ![image](https://github.com/user-attachments/assets/e903bfc7-a6e9-4a30-ba87-01e08aef478b)
@@ -198,6 +272,28 @@ group by 1
 
 **Impact** : Understanding peak transaction times helps optimize platform performance and resource management to handle high transaction volumes effectively. This information allows for strategic planning, such as scaling resources during peak hours to ensure smooth operation and preventing downtime. Additionally, insights from this heatmap can guide promotional and support activities to align with high-activity periods, improving user experience and revenue generation during busy times. <br>
 
+<details>
+	<summary>Metabase Query for Busy Period by Number of Charged Message</summary>
+```
+SELECT 
+    mart.blast_transaction_agg.hour AS hour_of_day, 
+    TO_CHAR(mart.blast_transaction_agg.received_date, 'FMDay') AS day_of_week, -- Display day name without trailing spaces
+    EXTRACT(DOW FROM mart.blast_transaction_agg.received_date) AS dow_numeric, -- Numeric day of week (0=Sunday, 1=Monday, etc.)
+    SUM(mart.blast_transaction_agg.num_of_charge) AS total_charge -- sum number of charge
+FROM mart.blast_transaction_agg
+where {{date}} 
+    and {{channel}}
+GROUP BY 
+    hour_of_day, 
+    day_of_week, 
+    dow_numeric
+ORDER BY 
+    dow_numeric,
+    hour_of_day ASC;
+```
+	
+</details>
+
 ## Total Blast by Channel
 
 ![image](https://github.com/user-attachments/assets/0e9f2a5b-e64b-46ac-8995-0cd5bbfaa2db)
@@ -207,6 +303,138 @@ group by 1
 **Usage** : Each bar represents a channel, with the length of the bar indicating the total charge generated by that channel. For example, WhatsApp has the highest total charge at 17.8 million, followed by email at 3.6 million, IVR at 1.3 million, and SMS at 255.8k. This visualization makes it easy to identify which channels are generating the most revenue from message blasting.
 
 **Impact** : Understanding the revenue contribution from each channel allows stakeholders to prioritize resources and investments toward the most profitable channels. For instance, the high charge volume on WhatsApp suggests it is the most effective channel, potentially warranting further development or promotion. Conversely, lower-performing channels like SMS might benefit from optimization or could be phased out if they are not cost-effective. This analysis helps optimize channel performance, improve revenue streams, and shape future strategic decisions.
+
+<details>
+	<summary>Query for blast_transacting_agg</summary>
+
+```
+truncate table mart."blast_transaction_agg";
+	
+insert into mart."blast_transaction_agg"
+	select *
+	from (
+		select
+			cast("receivedTimestamp" as date) as "received_date",
+			extract(hour from "receivedTimestamp") as "hour",
+			"categoryType", 
+			"bsp_functionName",
+			count("receipientNumber") as "num_of_charge",
+			'whatsapp' as "flag"
+		from (
+			select
+				"receivedTimestamp" at time zone 'utc' as "receivedTimestamp",
+				case
+					when "categoryType" is null then 'unidentified'
+					else "categoryType"
+				end "categoryType", 
+				"bsp_functionName",
+				"receipientNumber",
+				row_number() over (partition by "receipientNumber","conversationID" order by "receivedTimestamp" desc) as row_num
+			from raw.wanew_conversationsessions
+			where application in (
+				select distinct application
+				from raw.whatsappbroadcasts
+				where status = 'finish'
+					and created_at between '2024-01-01' and '2024-12-31'
+				)
+	--			and "source" not in ('wa_interaction', 'whatsapp')
+				and "lastStatus" in ('read', 'delivered')
+				and "charge" is true
+				and "receivedTimestamp" between '2024-01-01' and '2024-12-31'
+		) as whatsapp
+		where row_num = 1
+		group by 1,2,3,4
+		union all
+		select
+			cast("created_at" as date) as "received_date",
+			extract(hour from "created_at") as "hour",
+			null as "categoryType", 
+			null as "bsp_functionName",
+			sum("total_sms") as "num_of_charge",
+			'sms' as "flag"
+		from (
+			select
+				"created_at" at time zone 'utc' as "created_at", 
+				phone_number, total_sms
+			from raw.smssubscribers
+			where status = 'sent'
+				and created_at between '2024-01-01' and '2024-12-31'
+		) as sms
+		group by 1,2,3,4
+		union all
+		select
+			cast("delivered_date" as date) as "received_date",
+			extract(hour from "delivered_date") as "hour",
+			null as "categoryType", 
+			null as "bsp_functionName",
+			sum("total_email") as "num_of_charge",
+			'email' as "flag"
+		from (
+			select
+				"delivered_date" at time zone 'utc' as "delivered_date",
+				email, total_email
+			from raw.emailsubscribers
+			where (
+				status in ('delivered', 'opened', 'unsubscribe')
+				or (status = 'failed' and message is not null)
+				)
+				and delivered_date between '2024-01-01' and '2024-12-31'
+		) as email
+		group by 1,2,3,4
+		union all
+		select
+			cast("call_answer" as date) as "received_date",
+			extract(hour from "call_answer") as "hour",
+			null as "categoryType", 
+			null as "bsp_functionName",
+			sum("talk_duration") as "num_of_charge",
+			'ivr' as "flag"
+		from (
+			select
+				"call_answer" at time zone 'utc' as "call_answer",
+				talk_duration,
+				row_number() over (partition by _id order by _ingest_ts desc) as row_num
+			from raw.call_detail_records
+			where status = 'answered'
+				and call_answer between '2024-01-01' and '2024-12-31'
+		) as ivr
+		where row_num = 1
+		group by 1,2,3,4
+	) as total_charge
+	order by 1 desc, 2 asc
+	;
+```
+
+</details>
+
+<details>
+	<summary>Metabase Query for 'Total Blast by Channel'</summary>
+
+```
+SELECT 
+    "channel",
+    -- "categoryType",
+    sum("num_of_charge") AS "total_charge"
+FROM (
+    select 
+        "flag" as "channel",
+        case
+            when "categoryType" is null then 'unidentified'
+            else "categoryType"
+        end "categoryType",
+        "num_of_charge"
+    from mart.blast_transaction_agg
+    WHERE {{date_range}}
+        and {{channel}}
+) as t
+    where "categoryType" not in ('authentication','service')
+GROUP BY 1
+order by 2 desc
+-- note: null value pada suatu kolom perlu didefine dengan suatu value agar tidak di-exclude
+--          ketika kolom tersebut digunakan sebagai filter (cth.: categoryType)
+;
+```
+</details>
 
 ## Invitation Funneling
 
