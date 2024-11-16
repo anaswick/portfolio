@@ -5,16 +5,14 @@
 ## Education
 - Bachelor of Economics, Management | Universitas Indonesia (_Augusts 2015_)
 
-## Work Experience <br>
+## Work Experience 
 
 
-Head of Analytics - Telkom Indonesia (_July 2024 - Present_)
-- 
+- **Head of Analytics - Telkom Indonesia (_July 2024 - Present_)**
 
-**Data Scientist - Telkom Indonesia (_October 2021 - July 2024_)**
--
+- **Data Scientist - Telkom Indonesia (_September 2021 - July 2024_)**
 
-**Head of Representative Office - Telkom Indonesia (_April 2017 - August 2021_)**
+- **Head of Representative Office - Telkom Indonesia (_April 2017 - August 2021_)**
 
 ## Projects
 
@@ -24,11 +22,15 @@ Developed a data-driven strategy for tracking and optimizing key performance ind
 
 [Complete Documentation](https://github.com/anaswick/portfolio/blob/main/assets/documentation/oca-blast-kpi-monitoring-dashboard.md)
 
+<img src="https://github.com/user-attachments/assets/dac08bd7-e899-498e-9d96-8bd442f0a04a" alt="image" width="250"/>
+
 ### KPI and Metrics Tracking Dashboard for CRM Services
 
 Developed an analytics-driven approach to track and enhance key performance indicators (KPIs) within a CRM service across diverse customer interaction channels. Leveraging Python and advanced visualization tools, the project systematically monitored conversation volumes, response times, customer satisfaction, and retention metrics across channels such as WhatsApp, email, live chat, and social media. This approach delivered comprehensive insights into customer service effectiveness, identifying areas for process optimization and resource allocation. The resulting dashboard offers an automated and adaptable solution for real-time performance monitoring, empowering stakeholders to make data-informed decisions, improve customer satisfaction, and align CRM efforts with strategic business objectives.
 
 [Complete Documentation](https://github.com/anaswick/portfolio/edit/main/assets/documentation/oca-interaction-kpi-dashboard.md)
+
+<img src="https://github.com/user-attachments/assets/dff4eef0-9375-4cd5-9f43-a779cc165a32" alt="image" width="250"/>
 
 ### Free Trial Campaign Effectiveness Dashboard
 
@@ -36,9 +38,15 @@ Designed an analytics-driven dashboard to assess the effectiveness of a free tri
 
 [Complete Documentation](https://github.com/anaswick/portfolio/blob/main/assets/documentation/oca-free-trial-campaign-effectiveness-dashboard.md)
 
-### 
+
+<img src="https://github.com/user-attachments/assets/9bf09618-e77e-4eab-a87b-99d2efd494c3" alt="image" width="250"/>
+
+### Python-Based Random Sampling for Customer Interaction Quality Assessment
 
 The goal of this project is to improve customer service quality and ensure interactions meet established standards by implementing a Python-based random sampling and scoring system for customer service interactions. This system adheres to the principle of continuous improvement, enabling regular assessments and refinements to service quality. The sampling focuses specifically on complaint tickets, ensuring that the most critical customer interactions are evaluated for quality and resolution effectiveness.
+
+
+<img src="https://github.com/user-attachments/assets/4272bd90-98a1-403b-a830-5cefd500cb98" alt="image" width="250"/>
 
 ## Courses and Certification
 
