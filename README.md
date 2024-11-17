@@ -5,6 +5,8 @@
 ## Education
 - Bachelor of Economics, Management | Universitas Indonesia (_Augusts 2015_)
 
+
+
 ## Work Experience 
 
 
@@ -13,6 +15,8 @@
 - **Data Scientist - Telkom Indonesia (_September 2021 - July 2024_)**
 
 - **Head of Representative Office - Telkom Indonesia (_April 2017 - August 2021_)**
+
+
 
 ## Projects
 
@@ -30,6 +34,8 @@ Faced with poor operational and financial performance due to one of the worst in
 
 <img src="https://github.com/user-attachments/assets/edb55402-7de7-4b14-86da-ddedd6ad62e0" alt="image" width="250"/>
 
+
+
 ### KPI and Metrics Tracking Dashboard for Message Blasting Services
 
 Developed a data-driven strategy for tracking and optimizing key performance indicators (KPIs) across multiple communication channels using Python and visualization tools. By systematically monitoring message delivery, engagement metrics, and usage trends across WhatsApp, email, SMS, and IVR, the project enables comprehensive performance insights. This approach allowed for a more nuanced understanding of channel effectiveness, highlighting opportunities for targeted optimization and improved customer engagement. The dashboard provides a fully automated, flexible solution for real-time monitoring and strategic analysis, enhancing decision-making and aligning business goals with customer interaction patterns.
@@ -38,6 +44,8 @@ Developed a data-driven strategy for tracking and optimizing key performance ind
 
 <img src="https://github.com/user-attachments/assets/dac08bd7-e899-498e-9d96-8bd442f0a04a" alt="image" width="250"/>
 
+
+
 ### KPI and Metrics Tracking Dashboard for CRM Services
 
 Developed an analytics-driven approach to track and enhance key performance indicators (KPIs) within a CRM service across diverse customer interaction channels. Leveraging Python and advanced visualization tools, the project systematically monitored conversation volumes, response times, customer satisfaction, and retention metrics across channels such as WhatsApp, email, live chat, and social media. This approach delivered comprehensive insights into customer service effectiveness, identifying areas for process optimization and resource allocation. The resulting dashboard offers an automated and adaptable solution for real-time performance monitoring, empowering stakeholders to make data-informed decisions, improve customer satisfaction, and align CRM efforts with strategic business objectives.
@@ -45,6 +53,8 @@ Developed an analytics-driven approach to track and enhance key performance indi
 [Complete Documentation](https://github.com/anaswick/portfolio/edit/main/assets/documentation/oca-interaction-kpi-dashboard.md)
 
 <img src="https://github.com/user-attachments/assets/dff4eef0-9375-4cd5-9f43-a779cc165a32" alt="image" width="250"/>
+
+
 
 ### Free Trial Campaign Effectiveness Dashboard
 
@@ -55,6 +65,8 @@ Designed an analytics-driven dashboard to assess the effectiveness of a free tri
 
 <img src="https://github.com/user-attachments/assets/9bf09618-e77e-4eab-a87b-99d2efd494c3" alt="image" width="250"/>
 
+
+
 ### Python-Based Random Sampling for Customer Interaction Quality Assessment
 
 The goal of this project is to improve customer service quality and ensure interactions meet established standards by implementing a Python-based random sampling and scoring system for customer service interactions. This system adheres to the principle of continuous improvement, enabling regular assessments and refinements to service quality. The sampling focuses specifically on complaint tickets, ensuring that the most critical customer interactions are evaluated for quality and resolution effectiveness.
@@ -62,6 +74,8 @@ The goal of this project is to improve customer service quality and ensure inter
 [Complete Documentation](https://github.com/anaswick/portfolio/blob/main/assets/documentation/Python-Based%20Random%20Sampling%20for%20Customer%20Interaction%20Quality%20Assessment.md)
 
 <img src="https://github.com/user-attachments/assets/4272bd90-98a1-403b-a830-5cefd500cb98" alt="image" width="250"/>
+
+
 
 ## Courses and Certification
 
