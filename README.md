@@ -16,6 +16,20 @@
 
 ## Projects
 
+### Data Driven Telecommunication Network Optimization for Better Customer Satisfaction
+
+Faced with poor operational and financial performance due to one of the worst internet network qualities nationwide, I implemented a data-driven approach to optimize network improvements and enhance customer satisfaction. Using tools like spreadsheets and Google Earth, I visualized Optical Distribution Point (ODP) utilization with a color-coded system, mapped customer complaint ticket locations, and overlaid historical unserved demand to identify high-priority areas. 
+
+**Outcomes :**
+
+1. Consistent double-digit revenue growth: Achieved over 15% Year-on-Year revenue growth.
+2. Fulfillment rate improvement: Increased from 40% to 95% (fulfillment rate is the ratio of served demand to total demand, with a higher percentage indicating better service).
+3. Reduced complaint rate: Decreased from 12% to 3% of the total customer base in the area.
+
+[Complete Documentation](https://github.com/anaswick/portfolio/blob/main/assets/documentation/data-driven-network-optimization.md)
+
+<img src="https://github.com/user-attachments/assets/edb55402-7de7-4b14-86da-ddedd6ad62e0" alt="image" width="250"/>
+
 ### KPI and Metrics Tracking Dashboard for Message Blasting Services
 
 Developed a data-driven strategy for tracking and optimizing key performance indicators (KPIs) across multiple communication channels using Python and visualization tools. By systematically monitoring message delivery, engagement metrics, and usage trends across WhatsApp, email, SMS, and IVR, the project enables comprehensive performance insights. This approach allowed for a more nuanced understanding of channel effectiveness, highlighting opportunities for targeted optimization and improved customer engagement. The dashboard provides a fully automated, flexible solution for real-time monitoring and strategic analysis, enhancing decision-making and aligning business goals with customer interaction patterns.
