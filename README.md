@@ -4,7 +4,7 @@
 
 ## Education
 - Bachelor of Economics, Management | Universitas Indonesia (_Augusts 2015_)
-
+<br>
 
 
 ## Work Experience 
@@ -15,8 +15,7 @@
 - **Data Scientist - Telkom Indonesia (_September 2021 - July 2024_)**
 
 - **Head of Representative Office - Telkom Indonesia (_April 2017 - August 2021_)**
-
-
+<br>
 
 ## Projects
 
@@ -34,7 +33,7 @@ Faced with poor operational and financial performance due to one of the worst in
 
 <img src="https://github.com/user-attachments/assets/edb55402-7de7-4b14-86da-ddedd6ad62e0" alt="image" width="250"/>
 
-
+<br>
 
 ### KPI and Metrics Tracking Dashboard for Message Blasting Services
 
@@ -44,7 +43,7 @@ Developed a data-driven strategy for tracking and optimizing key performance ind
 
 <img src="https://github.com/user-attachments/assets/dac08bd7-e899-498e-9d96-8bd442f0a04a" alt="image" width="250"/>
 
-
+<br>
 
 ### KPI and Metrics Tracking Dashboard for CRM Services
 
@@ -54,7 +53,7 @@ Developed an analytics-driven approach to track and enhance key performance indi
 
 <img src="https://github.com/user-attachments/assets/dff4eef0-9375-4cd5-9f43-a779cc165a32" alt="image" width="250"/>
 
-
+<br>
 
 ### Free Trial Campaign Effectiveness Dashboard
 
@@ -65,7 +64,7 @@ Designed an analytics-driven dashboard to assess the effectiveness of a free tri
 
 <img src="https://github.com/user-attachments/assets/9bf09618-e77e-4eab-a87b-99d2efd494c3" alt="image" width="250"/>
 
-
+<br>
 
 ### Python-Based Random Sampling for Customer Interaction Quality Assessment
 
@@ -75,7 +74,7 @@ The goal of this project is to improve customer service quality and ensure inter
 
 <img src="https://github.com/user-attachments/assets/4272bd90-98a1-403b-a830-5cefd500cb98" alt="image" width="250"/>
 
-
+<br>
 
 ## Courses and Certification
 
@@ -85,6 +84,8 @@ The goal of this project is to improve customer service quality and ensure inter
 - [IBM Data Analyst](https://github.com/anaswick/portfolio/blob/main/assets/img/certification/IBM%20Data%20Analyst.JPG)
 - [Microsoft Power BI Desktop for Business Intelligence](https://github.com/anaswick/portfolio/blob/main/assets/img/certification/Microsoft%20Power%20BI%20Desktop%20for%20Business%20Intelligence.JPG)
 - [Tableau 2022 A-Z - Hands On Tableau Training for Data Science](https://github.com/anaswick/portfolio/blob/main/assets/img/certification/Tableau%202022%20A-Z%20-%20Hands%20On%20Tableau%20Training%20for%20Data%20Science.JPG)
+
+<br>
 
 ## Talks & Lectures
 - KarirLab x Mowilex Corporate Training for Management Trainee - Boost Your Data Analysis Skills with Excel , October 2024
