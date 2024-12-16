@@ -19,6 +19,25 @@
 
 ## Projects
 
+### OCA Blast RFM Analysis: Enhancing Customer Engagement through Data Science
+
+This project applies RFM (Recency, Frequency, Monetary) analysis to an omnichannel communication assistant platform, leveraging data science techniques to optimize customer segmentation and engagement strategies. The analysis focused on identifying high-value customer segments to improve retention, increase lifetime value, and drive business growth.
+
+**Objectives**
+
+- Identify customer behavior patterns through RFM segmentation.
+- Develop actionable insights to personalize campaigns across communication channels like WhatsApp, SMS, email, and IVR.
+- Demonstrate the impact of data-driven strategies on customer engagement and revenue.
+
+**Tools and Technologies**
+
+Languages: Python, SQL <br>
+Libraries: Pandas, Scikit-learn, Matplotlib, Seaborn <br>
+Database: PostgreSQL <br>
+
+[Complete Documentation](https://github.com/anaswick/portfolio/blob/main/assets/documentation/oca-blast-rfm-analysis.md)
+
+
 ### Data Driven Telecommunication Network Optimization for Better Customer Satisfaction
 
 Faced with poor operational and financial performance due to one of the worst internet network qualities nationwide, I implemented a data-driven approach to optimize network improvements and enhance customer satisfaction. Using tools like spreadsheets and Google Earth, I visualized Optical Distribution Point (ODP) utilization with a color-coded system, mapped customer complaint ticket locations, and overlaid historical unserved demand to identify high-priority areas. 
