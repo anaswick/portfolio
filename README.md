@@ -35,6 +35,10 @@ Languages: Python, SQL <br>
 Libraries: Pandas, Scikit-learn, Matplotlib, Seaborn <br>
 Database: PostgreSQL <br>
 
+**Outcomes**
+
+Improved customer retention rates by 10%
+
 [Complete Documentation](https://github.com/anaswick/portfolio/blob/main/assets/documentation/oca-blast-rfm-analysis.md)
 
 
