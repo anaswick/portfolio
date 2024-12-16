@@ -41,6 +41,8 @@ Improved customer retention rates by 10%
 
 [Complete Documentation](https://github.com/anaswick/portfolio/blob/main/assets/documentation/oca-blast-rfm-analysis.md)
 
+<img src="https://github.com/anaswick/portfolio/blob/main/assets/img/rfm.png" alt="image" width="250"/>
+
 
 ### Data Driven Telecommunication Network Optimization for Better Customer Satisfaction
 
