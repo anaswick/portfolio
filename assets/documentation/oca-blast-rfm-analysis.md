@@ -595,3 +595,142 @@ plt.show()
 
 <img width="706" alt="Screenshot 2024-12-16 at 10 20 32" src="https://github.com/user-attachments/assets/cf38e5db-9211-47bb-bcf2-e85a8737ac88" />
 
+```
+# Count customers in each cluster
+cluster_counts = df_rfm['Clusters'].value_counts()
+
+# Bar plot for cluster counts
+plt.figure(figsize=(8, 5))
+sns.barplot(x=cluster_counts.index, y=cluster_counts.values, palette='viridis')
+plt.title('Number of Customers in Each Cluster')
+plt.xlabel('Cluster')
+plt.ylabel('Number of Customers')
+plt.show()
+
+# Boxplots for each RFM metric by cluster
+for col in ['recency', 'frequency_broadcast','frequency_charged', 'monetary']:
+    plt.figure(figsize=(10, 6))
+    sns.boxplot(x='Clusters', y=col, data=df_rfm, palette='viridis')
+    plt.title(f'{col.capitalize()} by Cluster')
+    plt.xlabel('Cluster')
+    plt.ylabel(col.capitalize())
+    plt.show()
+```
+
+**Boxplots for data distribution check**
+
+<img width="705" alt="Screenshot 2024-12-16 at 10 24 00" src="https://github.com/user-attachments/assets/828c8ce0-f672-401c-986a-03d53cdd856b" />
+
+<img width="704" alt="Screenshot 2024-12-16 at 10 24 07" src="https://github.com/user-attachments/assets/d54a4d70-6ecb-4c42-ad53-70942e608dcf" />
+
+<img width="703" alt="Screenshot 2024-12-16 at 10 24 20" src="https://github.com/user-attachments/assets/2c8edf17-ca26-4901-b478-f2274a22083a" />
+
+<img width="713" alt="Screenshot 2024-12-16 at 10 24 25" src="https://github.com/user-attachments/assets/d61b0bde-2e02-4292-9d17-5604f58ad05f" />
+
+**Renaming each clusters for better clarity**
+
+```
+# Define cluster names based on the given descriptions
+cluster_names = {
+    1: "Moderately Engaged Users",
+    2: "Top Performers",
+    3: "High Value Frequent Users",
+    4: "Dormant or Low-Value Users"
+}
+
+# Map the cluster numbers to their respective names
+df_rfm['cluster_name'] = df_rfm['Clusters'].map(cluster_names)
+
+# Create a single table with cluster information and names
+cluster_table = df_rfm[['application', 'full_name', 'recency', 'frequency_broadcast','frequency_charged', 'monetary', 'Clusters', 'cluster_name']]
+
+# Display the first few rows of the updated table
+print(cluster_table.head())
+
+# Save the table to a CSV file
+cluster_table.to_csv('rfm_clusters_multidimension_with_names_mkt_uti.csv', index=False)
+print("RFM clusters table with names saved to 'rfm_clusters_multidimension_with_names_mkt_uti.csv'")
+```
+
+## Revenue Contribution by Cluster
+
+<img width="673" alt="Screenshot 2024-12-16 at 10 26 11" src="https://github.com/user-attachments/assets/10f02f7e-6fcd-470e-b99e-b70484a1be5d" />
+
+
+## RFM Analysis Interpretation
+
+# RFM Cluster Analysis Interpretation
+
+## Cluster 1: "Moderately Engaged Users"
+- **Recency**: Moderate (52.8 days) → These customers have been somewhat active recently.
+- **Frequency (Broadcast)**: Low (102.9 campaigns) → They participate in a modest number of broadcasts.
+- **Frequency (Charged)**: Low (78,509 messages) → They send a relatively small number of charged messages.
+- **Monetary**: Low (43M) → They generate a modest amount of revenue.
+
+### Characteristics:
+- These users are moderately engaged but have low contribution in terms of frequency and revenue.
+- They may require targeted campaigns or incentives to increase both their frequency and monetary value.
+
+---
+
+## Cluster 2: "Top Performers"
+- **Recency**: Very recent (10.5 days) → These customers are highly active and engaged recently.
+- **Frequency (Broadcast)**: High (1,191.5 campaigns) → They conduct a significant number of campaigns.
+- **Frequency (Charged)**: High (4.59M messages) → They send a very high number of charged messages.
+- **Monetary**: Very high (3.57B) → They generate the highest revenue.
+
+### Characteristics:
+- These are your most valuable customers, contributing significantly to both frequency and monetary value.
+- Retaining these customers should be a priority through loyalty programs, premium services, or personalized offers.
+
+---
+
+## Cluster 3: "High-Value Frequent Users"
+- **Recency**: Recent (29.7 days) → These customers have been active relatively recently.
+- **Frequency (Broadcast)**: Very high (2,078.3 campaigns) → They participate in the highest number of campaigns.
+- **Frequency (Charged)**: High (422,595 messages) → They send a large number of charged messages.
+- **Monetary**: High (152M) → They generate significant revenue.
+
+### Characteristics:
+- These users are highly engaged and contribute significantly to frequency and revenue, though not at the level of "Top Performers."
+- They represent a valuable segment that should be nurtured and potentially moved toward the "Top Performers" cluster.
+
+---
+
+## Cluster 4: "Dormant or Low-Value Users"
+- **Recency**: Very high (262.6 days) → These customers have been inactive for a long time.
+- **Frequency (Broadcast)**: Very low (7.9 campaigns) → They conduct very few broadcasts.
+- **Frequency (Charged)**: Very low (2,508 messages) → They send minimal charged messages.
+- **Monetary**: Very low (1.7M) → They generate negligible revenue.
+
+### Characteristics:
+- These customers are disengaged and contribute very little to the business.
+- They may require reactivation campaigns or special offers to re-engage them, but some may represent churned users.
+
+---
+
+# Summary of Clusters
+
+| **Cluster** | **Name**                     | **Key Traits**                                                                 |
+|-------------|------------------------------|--------------------------------------------------------------------------------|
+| **Cluster 1** | "Moderately Engaged Users"   | Modest campaigns, moderate recency, low frequency, and revenue.                |
+| **Cluster 2** | "Top Performers"              | Very recent, high campaigns, highest charged messages, and highest revenue.    |
+| **Cluster 3** | "High-Value Frequent Users"  | Recent, highest campaigns, high charged messages, significant revenue.         |
+| **Cluster 4** | "Dormant or Low-Value Users" | Very inactive, few campaigns, minimal charged messages, negligible revenue.    |
+
+---
+
+# Recommendations
+1. **Cluster 1**:
+   - Target these users with campaigns to increase their frequency and revenue. 
+   - Provide incentives for running more campaigns or expanding their customer engagement.
+
+2. **Cluster 2**:
+   - Focus on retention strategies such as loyalty programs, premium services, and personalized experiences to maintain engagement.
+
+3. **Cluster 3**:
+   - Nurture this segment by encouraging further participation in campaigns and potentially upselling additional services or packages.
+
+4. **Cluster 4**:
+   - Design reactivation campaigns, offer discounts, or provide tailored communication to bring these dormant users back into the active user base.
+
