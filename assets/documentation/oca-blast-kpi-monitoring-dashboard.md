@@ -65,9 +65,7 @@ The dashboard includes three primary filters to help users refine data views and
 
 **Impact**: An increase in transacting users reflects higher revenue potential and successful conversion of active users to paying customers. This metric provides critical insights into monetization and helps identify opportunities to improve conversion rates and optimize revenue streams. <br>
 
-<details>
-
-  <summary>Query for blast_transacting datamart </summary>
+**Datamart Query**
 
 This table update once a day
 ```
@@ -109,11 +107,8 @@ This table update once a day
 	) as agg
 	where created_at between '2024-01-01' and '2024-12-31'
 ```
-</details>
 
-<details>
-
-  <summary>Query on Metabase 'Total Transacting Users' </summary>
+**Metabase Query 'Total Transacting Users'**
 
   ```
   select
@@ -127,7 +122,7 @@ where {{date_range}}
     and mart.blast_transacting.status = 'finish'
 ;
   ```
-</details>
+
 
 ![image](https://github.com/user-attachments/assets/5a4e20af-6b90-48bc-9e84-9e4b7ce16432)
 
@@ -139,8 +134,7 @@ This section of the dashboard visualizes the trends in New Registered Users and 
 
 Together, these charts offer a clear view of user growth and engagement trends, enabling data-driven decisions to optimize acquisition and conversion strategies.
 
-<details>
-  <summary>Query on Metabase 'Transacting Users Trend Chart'</summary>
+**Metabase Query 'Transacting Users Trend Chart'**
 
   ```
   select
@@ -168,8 +162,7 @@ group by 1
 
 **Impact** : Tracking DAU, WAU, and MAU helps stakeholders understand user behavior and engagement patterns, especially in a context where most usage occurs on working days. Regular fluctuations in DAU, alongside relatively stable WAU and MAU values, indicate consistent usage patterns that align with work schedules. This data enables the team to assess user retention over time and make informed decisions on strategies to boost daily engagement or maintain long-term user loyalty. <br>
 
-<details>
-	<summary>Query for datamart 'blast_active_users'</summary>
+**Datamart Query 'blast_active_users'**
 
 ```
 	truncate table mart."blast_active_users";
@@ -186,10 +179,8 @@ group by 1
 	where h.category in ('Log In', 'log_in')
 		and h.created_at between '2024-01-01' and NOW();
   ```
-</details>
 
-<details>
-	<summary>Metabase Query for DAU, MAU, WAU Chart </summary>
+**Metabase Query for DAU, MAU, WAU Chart**
 
 ```
 with distinct_users as (
@@ -222,7 +213,7 @@ group by 1
 order by 1
 ;
   ```
-</details>
+
 
 ## Heatmap
 
@@ -236,8 +227,8 @@ order by 1
 
 **Impact** : Understanding the busiest hours for OCA blasts allows the team to optimize resource allocation, system performance, and support availability during peak usage times. This data-driven approach ensures that the platform can handle demand efficiently during peak hours, minimizing the risk of downtime and enhancing user experience. It also helps with scheduling maintenance during low-activity periods and planning targeted marketing or support activities to engage users during high-traffic times. <br>
 
-<details>
-	<summary>Metabase Query for Busy Period by Number of Active Users Heatmap</summary>
+
+**Metabase Query for Busy Period by Number of Active Users Heatmap**
 
 ```
 SELECT 
@@ -260,7 +251,7 @@ ORDER BY
     dow_numeric,
     hour_of_day ASC;
 ```
-</details>
+
 
 ### Busy Period by Number of Charged Message
 
@@ -272,8 +263,8 @@ ORDER BY
 
 **Impact** : Understanding peak transaction times helps optimize platform performance and resource management to handle high transaction volumes effectively. This information allows for strategic planning, such as scaling resources during peak hours to ensure smooth operation and preventing downtime. Additionally, insights from this heatmap can guide promotional and support activities to align with high-activity periods, improving user experience and revenue generation during busy times. <br>
 
-<details>
-	<summary>Metabase Query for Busy Period by Number of Charged Message</summary>
+**Metabase Query for Busy Period by Number of Charged Message**
+
 ```
 SELECT 
     mart.blast_transaction_agg.hour AS hour_of_day, 
@@ -291,8 +282,6 @@ ORDER BY
     dow_numeric,
     hour_of_day ASC;
 ```
-	
-</details>
 
 ## Total Blast by Channel
 
@@ -304,8 +293,7 @@ ORDER BY
 
 **Impact** : Understanding the revenue contribution from each channel allows stakeholders to prioritize resources and investments toward the most profitable channels. For instance, the high charge volume on WhatsApp suggests it is the most effective channel, potentially warranting further development or promotion. Conversely, lower-performing channels like SMS might benefit from optimization or could be phased out if they are not cost-effective. This analysis helps optimize channel performance, improve revenue streams, and shape future strategic decisions.
 
-<details>
-	<summary>Query for blast_transacting_agg</summary>
+**Datamart Query for blast_transacting_agg**
 
 ```
 truncate table mart."blast_transaction_agg";
@@ -405,10 +393,7 @@ insert into mart."blast_transaction_agg"
 	;
 ```
 
-</details>
-
-<details>
-	<summary>Metabase Query for 'Total Blast by Channel'</summary>
+**Metabase Query for 'Total Blast by Channel'**
 
 ```
 SELECT 
@@ -434,7 +419,7 @@ order by 2 desc
 --          ketika kolom tersebut digunakan sebagai filter (cth.: categoryType)
 ;
 ```
-</details>
+
 
 ## Invitation Funneling
 
