@@ -392,4 +392,15 @@ This visualization allows for quick identification of both routine patterns and 
 **Impact** <br>
 Analyzing daily conversation volume enables the organization to optimize resource allocation and ensure adequate support staffing during high-demand periods. Recognizing peak days allows for proactive planning, which helps maintain service quality during busy times. This data also informs future strategies by identifying patterns in customer engagement, allowing the organization to plan targeted initiatives that enhance customer experience and efficiently handle fluctuations in demand.
 
-
+**Metabase Query**
+```
+select
+    "date",
+    sum(total_inbound)+sum(total_outbound) as "inbound + outbound"
+from mart.interaction_conversations
+where {{date_range}}
+    and {{user_name}}
+group by 1
+order by 1 asc
+;
+```
