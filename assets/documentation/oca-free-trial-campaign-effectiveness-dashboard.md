@@ -34,6 +34,42 @@ This visualization enables stakeholders to quickly identify spikes or drops in d
 **Impact** <br>
 Analyzing daily free trial registrations helps the organization optimize marketing and outreach strategies to increase sign-ups. By identifying patterns in registration trends, stakeholders can adjust campaign timing, target specific periods of high activity, and evaluate the impact of marketing initiatives on user acquisition. This data-driven approach enhances decision-making for user growth strategies and aligns trial sign-up efforts with broader business goals for customer acquisition.
 
+
+**Datamart Query**
+```
+truncate mart.free_trial_users ;
+
+insert into mart.free_trial_users 
+select 
+b."_id" as billingmasters_id,
+b.application , 
+u.full_name , 
+b.account_status , 
+b.billing_type , 
+case when b.is_new = true then 'lite'
+else 'reguler' end as account_category,
+b.user_type ,
+b.product,
+a.created_at AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Jakarta' AS account_created_at,
+b.created_at AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Jakarta' AS transaction_ts,
+b.billing_date AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Jakarta' AS billing_date,
+b.next_billing_date AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Jakarta' AS next_billing_date,
+b.subscription_type ,
+b.previous_type 
+from raw.billingmasters b 
+left join raw.applications a on b.application = a."_id" 
+left join raw.users u on a."user" = u."_id" 
+order by account_created_at;
+```
+
+**Metabase Query**
+```
+select DATE(account_created_at) AS date, count(distinct application)
+from mart.free_trial_users
+where {{account_created_at}} and application not in (select application from raw.master_testing_demo_account) and {{subscription_type}}
+group by 1;
+```
+
 ## Free Trial Favorite Message Blasting Channel
 
 ![image](https://github.com/user-attachments/assets/b066b2f2-0741-4e30-86e2-1d35c82761aa)
@@ -49,6 +85,85 @@ This visualization helps stakeholders quickly understand which channels are most
 **Impact** <br>
 By analyzing channel distribution for message blasts, the organization can evaluate the effectiveness of each communication channel in driving engagement during the free trial period. This data enables informed decisions on optimizing channel strategies, potentially shifting focus to high-performing channels or exploring underutilized ones. Understanding channel effectiveness supports targeted marketing efforts, enhances user engagement, and helps improve conversion rates from free trial to paid subscriptions.
 
+**Datamart Query**
+```
+truncate mart.free_trial_blast_users ;
+
+insert into mart.free_trial_blast_users
+SELECT 
+ftu.billingmasters_id,
+ftu.application,
+ftu.full_name,
+ftu.account_status,
+ftu.billing_type,
+ftu.account_category,
+ftu.user_type,
+ftu.account_created_at,
+ftu.transaction_ts,
+ftu.billing_date,
+ftu.next_billing_date,
+ftu.subscription_type,
+    SUM(wbta.marketing) AS marketing_count,
+    SUM(wbta.utility) AS utility_count,
+    SUM(ebta.total) AS email_count,
+    SUM(sbta.total_sms) AS sms_count,
+    CASE 
+        WHEN SUM(wbta.marketing) IS NOT NULL 
+            OR SUM(wbta.utility) IS NOT NULL 
+            OR SUM(ebta.total) IS NOT NULL 
+            OR SUM(sbta.total_sms) IS NOT NULL 
+        THEN 'active'
+        ELSE 'inactive'
+    END AS user_status_blast,
+ftu.previous_type ,
+NOW() _ingest_ts
+FROM mart.free_trial_users ftu
+LEFT JOIN mart.wa_blast_transaction_aggregate wbta ON ftu.full_name = wbta.client_name 
+LEFT JOIN mart.email_blast_transaction_aggregate ebta ON ftu.application = ebta.application 
+LEFT JOIN mart.sms_blast_transaction_aggregate sbta ON ftu.application = sbta.application 
+WHERE ftu.application NOT IN (SELECT application FROM raw.master_testing_demo_account)
+GROUP BY 
+	ftu.billingmasters_id,
+    ftu.application, 
+    ftu.full_name, 
+    ftu.account_status, 
+    ftu.billing_type, 
+    ftu.account_category, 
+    ftu.user_type, 
+    ftu.account_created_at, 
+    ftu.transaction_ts, 
+    ftu.billing_date, 
+    ftu.next_billing_date, 
+    ftu.subscription_type,
+    ftu.previous_type 
+ORDER BY ftu.account_created_at;
+```
+**Metabase Query**
+```
+SELECT 'wa_marketing' AS category, SUM(marketing_count) AS total
+FROM mart.free_trial_blast_users
+WHERE {{date}} AND {{subscription_type}}
+
+UNION ALL
+
+SELECT 'wa_utility' AS category, SUM(utility_count) AS total
+FROM mart.free_trial_blast_users
+WHERE {{date}} AND {{subscription_type}}
+
+UNION ALL
+
+SELECT 'email' AS category, SUM(email_count) AS total
+FROM mart.free_trial_blast_users
+WHERE {{date}} AND {{subscription_type}}
+
+UNION ALL
+
+SELECT 'sms' AS category, SUM(sms_count) AS total
+FROM mart.free_trial_blast_users
+WHERE {{date}} AND {{subscription_type}}
+
+ORDER BY total asc, category asc;
+```
 
 ## Retention Analysis - Daily Cohort
 
@@ -66,6 +181,94 @@ For example, if a cell shows “50%” in the day_1 column, it means that 50% of
 **Impact** <br>
 By analyzing cohort retention data, the organization can identify which days experience significant drop-offs and understand the overall retention pattern during the free trial period. This information helps in tailoring engagement strategies, such as sending targeted reminders or offering incentives to encourage users to return. Improving early retention rates can lead to higher conversions from free trial to paid users, as engaged users are more likely to see the value in the service. Ultimately, this data-driven approach to retention enhances user experience, increases the likelihood of long-term retention, and supports sustainable growth.
 
+**Metabase Query**
+```
+SELECT 
+    cohortday,
+    COUNT(DISTINCT CASE WHEN cohort = 0 THEN application_id END) AS cohort_size, -- Initial cohort size
+    ROUND(
+        COUNT(DISTINCT CASE WHEN cohort = 0 THEN application_id END) * 100.0 / NULLIF(COUNT(DISTINCT CASE WHEN cohort = 0 THEN application_id END), 0), 2
+    ) AS day_0,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN cohort = 1 THEN application_id END) * 100.0 / NULLIF(COUNT(DISTINCT CASE WHEN cohort = 0 THEN application_id END), 0), 2
+    ) AS day_1,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN cohort = 2 THEN application_id END) * 100.0 / NULLIF(COUNT(DISTINCT CASE WHEN cohort = 0 THEN application_id END), 0), 2
+    ) AS day_2,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN cohort = 3 THEN application_id END) * 100.0 / NULLIF(COUNT(DISTINCT CASE WHEN cohort = 0 THEN application_id END), 0), 2
+    ) AS day_3,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN cohort = 4 THEN application_id END) * 100.0 / NULLIF(COUNT(DISTINCT CASE WHEN cohort = 0 THEN application_id END), 0), 2
+    ) AS day_4,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN cohort = 5 THEN application_id END) * 100.0 / NULLIF(COUNT(DISTINCT CASE WHEN cohort = 0 THEN application_id END), 0), 2
+    ) AS day_5,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN cohort = 6 THEN application_id END) * 100.0 / NULLIF(COUNT(DISTINCT CASE WHEN cohort = 0 THEN application_id END), 0), 2
+    ) AS day_6,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN cohort = 7 THEN application_id END) * 100.0 / NULLIF(COUNT(DISTINCT CASE WHEN cohort = 0 THEN application_id END), 0), 2
+    ) AS day_7,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN cohort = 8 THEN application_id END) * 100.0 / NULLIF(COUNT(DISTINCT CASE WHEN cohort = 0 THEN application_id END), 0), 2
+    ) AS day_8,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN cohort = 9 THEN application_id END) * 100.0 / NULLIF(COUNT(DISTINCT CASE WHEN cohort = 0 THEN application_id END), 0), 2
+    ) AS day_9,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN cohort = 10 THEN application_id END) * 100.0 / NULLIF(COUNT(DISTINCT CASE WHEN cohort = 0 THEN application_id END), 0), 2
+    ) AS day_10,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN cohort = 11 THEN application_id END) * 100.0 / NULLIF(COUNT(DISTINCT CASE WHEN cohort = 0 THEN application_id END), 0), 2
+    ) AS day_11,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN cohort = 12 THEN application_id END) * 100.0 / NULLIF(COUNT(DISTINCT CASE WHEN cohort = 0 THEN application_id END), 0), 2
+    ) AS day_12,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN cohort = 13 THEN application_id END) * 100.0 / NULLIF(COUNT(DISTINCT CASE WHEN cohort = 0 THEN application_id END), 0), 2
+    ) AS day_13,
+    ROUND(
+        COUNT(DISTINCT CASE WHEN cohort = 14 THEN application_id END) * 100.0 / NULLIF(COUNT(DISTINCT CASE WHEN cohort = 0 THEN application_id END), 0), 2
+    ) AS day_14
+FROM 
+    (WITH ranked_history_logs AS (
+        SELECT 
+            hl."_dataid",
+            hl."_id" AS transaction_id,
+            hl.application AS application_id,
+            hl.category,
+            hl.created_at AS trans_ts,
+            hl."_ingest_ts",
+            ROW_NUMBER() OVER (PARTITION BY hl."_id" ORDER BY hl."_ingest_ts" DESC) AS row_num,
+            DATE_TRUNC('day', hl.created_at) AS transday, -- Extract transaction day
+            MIN(hl.created_at) OVER (PARTITION BY hl.application) AS first_trans_ts -- First transaction per application_id
+        FROM 
+            raw.history_logs hl
+        JOIN 
+            raw.applications a ON hl.application = a."_id"
+    )
+    SELECT 
+        application_id,
+        transaction_id,
+        trans_ts,
+        category,
+        transday,
+        DATE_TRUNC('day', first_trans_ts) AS cohortday, -- Truncate to day for cohort day
+        DATE_PART('day', AGE(transday, DATE_TRUNC('day', first_trans_ts))) AS cohort -- Calculate day difference between cohortday and transday
+    FROM 
+        ranked_history_logs
+    WHERE 
+        row_num = 1 
+        AND application_id NOT IN (SELECT application FROM raw.master_testing_demo_account mtda) 
+        AND first_trans_ts >= '2024-11-01' -- Start from 2024-11-01
+    ORDER BY 
+        application_id, trans_ts ASC) cohort_analysis
+GROUP BY 
+    cohortday
+ORDER BY 
+    cohortday;
+```
 
 ## Free Trial Blast - Account Creation to First Login Interval
 
