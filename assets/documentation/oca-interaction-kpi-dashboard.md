@@ -52,6 +52,39 @@ The chart plots the daily total of active agents, displaying trends from January
 **Impact** <br>
 The growth in active agent users reflects the platform’s success in expanding its user base and gaining market share. Steady growth suggests sustained user interest, while any sudden increases could indicate successful engagement initiatives. By analyzing these growth patterns, the organization can better understand user adoption trends, plan for resource scaling, and make data-driven decisions on future growth strategies. This insight also aids in evaluating the effectiveness of recruitment and onboarding processes for agent users.
 
+**Datamart Query**
+```
+truncate table mart.interaction_num_agents_agg_v2;
+
+insert into mart.interaction_num_agents_agg_v2
+with date_series as (
+    select generate_series('2023-01-01'::date, now(), '1 day') as daily_date
+)
+select
+    cast(d.daily_date as date) as "date",
+    coalesce(na.full_name, na.application) as "full_name",
+    coalesce(sum(na.total_agents), 0) as "total_agents"
+from date_series d
+left join mart.interaction_num_agents na
+    on d.daily_date between na.billing_date and (na.next_billing_date - interval '1 day')
+group by
+    d.daily_date, 2
+order by 
+    1 asc
+;
+```
+
+**Metabase Query**
+```
+select
+    "date", sum("total_agents") as "total agents"
+from mart.interaction_num_agents_agg_v2
+where {{date_range}}
+    and {{user_name}}
+group by 1
+;
+```
+
 ## Daily, Weekly, Monthly Active User Trend
 
 ![image](https://github.com/user-attachments/assets/edfa8a42-5081-442e-8184-028c7b1bdffd)
@@ -69,6 +102,56 @@ This trend chart highlights both immediate engagement (DAU) and sustained usage 
 **Impact** <br>
 By analyzing DAU, WAU, and MAU trends, the organization can gain insights into user engagement consistency and retention. Stable or increasing MAU and WAU levels indicate good long-term retention, while DAU patterns reveal peak engagement periods. This information is crucial for assessing the health of the user base, identifying opportunities to improve daily engagement, and guiding strategies to increase user retention. It also allows for targeted initiatives to boost user activity during periods of lower engagement, enhancing overall platform usage and satisfaction.
 
+**Datamart Query**
+```
+truncate mart.interaction_active_users;
+    
+INSERT INTO mart.interaction_active_users (agent_id, created_at, application, full_name)
+SELECT
+    cah.agent AS agent_id,
+    cah.created_at AT TIME ZONE 'utc' AS created_at,
+    cah.application,
+    COALESCE(u.full_name, cah.application) AS full_name
+FROM
+    raw.chat_agent_histories cah
+left join raw.applications a on cah.application = a."_id" 
+left join raw.users u on a."user" = u."_id" 
+WHERE
+    cah.created_at BETWEEN '2024-01-01' AND NOW();
+```
+
+**Metabase Query**
+```
+with distinct_users as (
+	select
+		cast(created_at as date) as "date",
+		agent_id
+	from mart.interaction_active_users
+	where {{date_range}} and {{full_name}}
+	group by 1,2
+)
+select
+	a."date",
+	(
+	    select count(distinct agent_id) 
+	    from distinct_users b 
+	    where b."date" = a."date"
+	) as "dau",
+	(
+	    select count(distinct agent_id) 
+	    from distinct_users b 
+	    where b."date" between a."date" - interval '6 days' and a."date" + interval '1 days'
+	) as "wau",
+	(
+	    select count(distinct agent_id) 
+	    from distinct_users b 
+	    where b."date" between a."date" - interval '27 days' and a."date" + interval '1 days'
+	) as "mau"
+from distinct_users a
+group by 1
+order by 1
+;
+```
 ## User Proportion by Type
 
 ![image](https://github.com/user-attachments/assets/0b572df1-b046-432b-909e-c51518821015)
@@ -86,6 +169,26 @@ This segmentation helps stakeholders quickly assess the balance between regular 
 **Impact** <br>
 Understanding the proportion of regular versus lite users aids in resource allocation and marketing strategies. A higher proportion of regular users suggests strong adoption of the full-service offering, while a substantial lite user base may highlight an opportunity for upselling to regular plans. This information supports strategic planning for user retention, product development, and targeted marketing efforts, enabling the organization to align offerings with user preferences and maximize revenue potential.
 
+**Metabase Query**
+```
+SELECT 
+    CASE 
+        WHEN ca.is_new IS TRUE THEN 'lite' 
+        ELSE 'regular'  
+    END AS category, 
+    COUNT(*) AS label_count,  -- Count the number of occurrences for each label
+    ROUND(COUNT(*)::DECIMAL / SUM(COUNT(*)) OVER () * 100, 2) AS proportion  -- Calculate proportion in percentage
+FROM 
+    raw.chat_agents ca
+LEFT JOIN 
+    raw.billingmasters b ON ca.application = b.application 
+WHERE 
+    b.next_billing_date > NOW() and ca.application not in (select application from raw.master_testing_demo_account mtda)
+GROUP BY 
+    category
+ORDER BY 
+    proportion DESC;
+```
 ## Total Conversations by Channel
 
 ![image](https://github.com/user-attachments/assets/18aa0004-01d4-41aa-979c-f78bfb5c010a)
@@ -104,6 +207,116 @@ This chart allows stakeholders to quickly identify the most popular channels and
 **Impact** <br>
 Understanding conversation volume by channel helps in resource allocation, ensuring that customer service teams are appropriately staffed and supported on the most active platforms. It also enables the organization to optimize user experience by focusing on high-traffic channels like WhatsApp and email. Additionally, insights from this data can guide future marketing and engagement strategies, focusing efforts on the platforms where users are most active. This analysis ultimately aids in improving customer satisfaction and operational efficiency by aligning resources with demand across communication channels.
 
+**Datamart Query**
+```
+truncate table mart.interaction_conversations;
+
+-- inserting data with created_at from 2024-01 to 2024-04
+insert into mart.interaction_conversations
+with user_application as (
+	select a._id as application_id, u.full_name
+	from (select distinct _id, "user" from raw.applications) as a
+	join raw.users as u
+		on a."user" = u._id
+	where a._id not in (select application from raw.master_testing_demo_account)
+)
+select
+	cast((c.created_at at time zone 'utc' at time zone 'Asia/Jakarta') as date)	as "date",
+	ua.application_id, 
+    coalesce(ua.full_name, ua.application_id) as full_name, 
+    r.channel,
+	count(distinct c._id) filter (where c.direction = 'inbound') as total_inbound,
+	count(distinct c._id) filter (where c.direction = 'outbound') as total_outbound,
+	sum(case when r.status = 'unhandled' then 1 else 0 end) status_unhandled,
+	sum(case when r.status = 'handled' then 1 else 0 end) status_handled,
+	sum(case when r.status = 'resolved' then 1 else 0 end) status_resolved
+from raw.chat_conversations as c
+left join raw.chat_rooms as r
+	on c.room = r._id
+left join user_application as ua
+	on r.application = ua.application_id
+where (c.created_at at time zone 'utc' at time zone 'Asia/Jakarta') between '2024-01-01 00:00:00.001' and '2024-04-30 23:59:59.000'
+	and c.direction in ('inbound','outbound')
+	and r.channel is not null
+group by 1,2,3,4
+order by 1 asc, 2 asc
+;
+
+-- inserting data with created_at from 2024-05 to 2024-08
+insert into mart.interaction_conversations
+with user_application as (
+	select a._id as application_id, u.full_name
+	from (select distinct _id, "user" from raw.applications) as a
+	join raw.users as u
+		on a."user" = u._id
+	where a._id not in (select application from raw.master_testing_demo_account)
+)
+select
+	cast((c.created_at at time zone 'utc' at time zone 'Asia/Jakarta') as date)	as "date",
+	ua.application_id, 
+    coalesce(ua.full_name, ua.application_id) as full_name, 
+    r.channel,
+	count(distinct c._id) filter (where c.direction = 'inbound') as total_inbound,
+	count(distinct c._id) filter (where c.direction = 'outbound') as total_outbound,
+	sum(case when r.status = 'unhandled' then 1 else 0 end) status_unhandled,
+	sum(case when r.status = 'handled' then 1 else 0 end) status_handled,
+	sum(case when r.status = 'resolved' then 1 else 0 end) status_resolved
+from raw.chat_conversations as c
+left join raw.chat_rooms as r
+	on c.room = r._id
+left join user_application as ua
+	on r.application = ua.application_id
+where (c.created_at at time zone 'utc' at time zone 'Asia/Jakarta') between '2024-05-01 00:00:00.001' and '2024-08-31 23:59:59.000'
+	and c.direction in ('inbound','outbound')
+	and r.channel is not null
+group by 1,2,3,4
+order by 1 asc, 2 asc
+;
+
+-- inserting data with created_at from 2024-09 to 2024-12
+insert into mart.interaction_conversations
+with user_application as (
+	select a._id as application_id, u.full_name
+	from (select distinct _id, "user" from raw.applications) as a
+	join raw.users as u
+		on a."user" = u._id
+	where a._id not in (select application from raw.master_testing_demo_account)
+)
+select
+	cast((c.created_at at time zone 'utc' at time zone 'Asia/Jakarta') as date)	as "date",
+	ua.application_id, 
+    coalesce(ua.full_name, ua.application_id) as full_name, 
+    r.channel,
+	count(distinct c._id) filter (where c.direction = 'inbound') as total_inbound,
+	count(distinct c._id) filter (where c.direction = 'outbound') as total_outbound,
+	sum(case when r.status = 'unhandled' then 1 else 0 end) status_unhandled,
+	sum(case when r.status = 'handled' then 1 else 0 end) status_handled,
+	sum(case when r.status = 'resolved' then 1 else 0 end) status_resolved
+from raw.chat_conversations as c
+left join raw.chat_rooms as r
+	on c.room = r._id
+left join user_application as ua
+	on r.application = ua.application_id
+where (c.created_at at time zone 'utc' at time zone 'Asia/Jakarta') between '2024-09-01 00:00:00.001' and '2024-12-31 23:59:59.000'
+	and c.direction in ('inbound','outbound')
+	and r.channel is not null
+group by 1,2,3,4
+order by 1 asc, 2 asc
+;
+```
+
+**Metabase Query**
+```
+select
+    channel,
+    sum(total_inbound)+sum(total_outbound) as "inbound + outbound"
+from mart.interaction_conversations
+where {{date_range}}
+    and {{user_name}}
+group by 1
+order by 2 desc
+;
+```
 ## Daily Total Tickets
 
 ![image](https://github.com/user-attachments/assets/5a806f60-30c3-43fd-9452-159fb71dcd6e)
@@ -118,6 +331,51 @@ This visualization helps in quickly identifying both daily patterns and any unus
 
 **Impact** <br>
 Understanding daily ticket volume trends allows the organization to optimize staffing and resource allocation, ensuring adequate support coverage during peak periods. The identification of specific high-activity days can prompt further investigation into root causes, such as feature releases, outages, or seasonal spikes, enabling the team to proactively manage similar events in the future. Ultimately, this data supports effective support operations management and enhances the customer experience by ensuring timely responses during high-demand periods.
+
+**Datamart Query**
+```
+truncate table mart.interaction_tickets;
+
+insert into mart.interaction_tickets
+with user_application as (
+	select a._id as application_id, u.full_name
+	from (select distinct _id, "user" from raw.applications) as a
+	join raw.users as u
+		on a."user" = u._id
+	where a._id not in (select application from raw.master_testing_demo_account)
+		and u.full_name is not null
+)
+select
+	"date", full_name, channel, priority, status,
+	count(_id) as total_tickets
+from (
+	select -- jumlah tiket berdasarkan waktu ter-create
+		cast((t.created_at at time zone 'utc' at time zone 'Asia/Jakarta') as date) as "date",
+		t._id, ua.full_name,
+		t.channel, t.priority, t.status,
+		row_number() over (partition by t._id order by t._ingest_ts desc) as row_num
+	from raw.tickets as t
+	join user_application as ua
+		on t.application = ua.application_id
+	where t.created_at between '2024-01-01' and '2024-12-31'
+) as t
+where row_num = 1
+group by 1,2,3,4,5
+order by 1 asc, 2 asc, 6 desc
+;
+```
+
+**Metabase Query**
+```
+select
+    "date", sum(total_tickets) as "Total tickets"
+from mart.interaction_tickets
+where {{date_range}}
+    and {{user_name}}
+group by 1
+order by 1 asc
+;
+```
 
 ## Daily Total Conversations
 
