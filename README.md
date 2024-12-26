@@ -102,6 +102,7 @@ The goal of this project is to improve customer service quality and ensure inter
 
 ## Courses and Certification
 
+- [Google Business Intelligence](https://github.com/anaswick/portfolio/blob/main/assets/img/certification/Google%20Business%20Intelligence%20Professional%20Certificate.jpg)
 - [Google Advanced Data Analytics](https://github.com/anaswick/portfolio/blob/main/assets/img/certification/Google%20Advance%20Data%20Analytics.JPG)
 - [Google Data Analytics](https://github.com/anaswick/portfolio/blob/main/assets/img/certification/Google%20Data%20Analytics.JPG)
 - [IBM Data Science](https://github.com/anaswick/portfolio/blob/main/assets/img/certification/IBM%20Data%20Science%20Professional%20Certificate.JPG)
