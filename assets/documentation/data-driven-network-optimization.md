@@ -1,5 +1,7 @@
 # Data Driven Telecommunication Network Optimization for Better Customer Satisfaction
 
+### Tools used : PostgreSQL, Google Earth, Excel
+
 Faced with poor operational and financial performance due to one of the worst internet network qualities nationwide, I implemented a data-driven approach to optimize network improvements and enhance customer satisfaction. Using tools like spreadsheets and Google Earth, I visualized Optical Distribution Point (ODP) utilization with a color-coded system, mapped customer complaint ticket locations, and overlaid historical unserved demand to identify high-priority areas. 
 
 ## Challenges
